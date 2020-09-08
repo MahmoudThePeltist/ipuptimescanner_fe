@@ -1,25 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { NavbarComponent } from './components/navbar/navbar.component';
+
 
 function App() {
+
+  var links_list = ['Home','CPE Map','Websites','Add'];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <NavbarComponent title={"Outage Scanner"} links={ links_list }/>
   );
 }
 
