@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom'
 
 export class NavbarComponent extends Component {
 
@@ -26,10 +27,6 @@ export class NavbarComponent extends Component {
 
     render(){
 
-        var links_list = this.props.links.map(link => {
-            return <Nav.Link href="#">{ link }</Nav.Link>
-        })
-
         return(
             <Navbar bg="light" expand="lg">
 
@@ -39,7 +36,11 @@ export class NavbarComponent extends Component {
               <Navbar.Collapse id="basic-navbar-nav">
 
                 <Nav className="mr-auto">
-                    { links_list }
+                    { this.props.links.map( link => 
+                        <Nav.Link>
+                            <Link to={ link.link }>{ link.title }</Link>
+                        </Nav.Link>
+                    ) }
                 </Nav>
 
                 <h5 className="text-primary">{this.state.date.toLocaleTimeString()}</h5>
