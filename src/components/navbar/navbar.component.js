@@ -28,7 +28,7 @@ export class NavbarComponent extends Component {
     render(){
 
         return(
-            <Navbar bg="light" expand="lg">
+            <Navbar expand="lg" bg="dark" variant="dark">
 
             <Navbar.Brand href="/">{ this.props.title }</Navbar.Brand>
             
@@ -37,9 +37,9 @@ export class NavbarComponent extends Component {
 
                 <Nav className="mr-auto">
                     { this.props.links.map( link => 
-                        <Nav.Link>
-                            <Link to={ link.link }>{ link.title }</Link>
-                        </Nav.Link>
+                        <Link className="nav-link" key={ link.link } to={ link.link }>
+                            { link.title }
+                        </Link>
                     ) }
                 </Nav>
 
