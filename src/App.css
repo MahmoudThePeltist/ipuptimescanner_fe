@@ -1,3 +1,34 @@
+body {
+  background-color: #f1f1f1 !important;
+}
+
+.btn {
+  border-radius: 15px 60px !important;
+  padding: .375rem 1.5rem !important;
+}
+
+.card {
+  border: none !important;
+  border-radius: 15px 60px !important;
+  overflow: hidden;
+  -webkit-box-shadow: 3px 3px 5px -2px rgba(0,0,0,0.3);
+  -moz-box-shadow: 3px 3px 5px -2px rgba(0,0,0,0.3);
+  box-shadow: 3px 3px 5px -2px rgba(0,0,0,0.3);
+  transition: 0.5s all
+}
+.card:hover {
+  border: none;
+  -webkit-box-shadow: 6px 6px 5px -2px rgba(0,0,0,0.3);
+  -moz-box-shadow: 6px 6px 5px -2px rgba(0,0,0,0.3);
+  box-shadow: 6px 6px 5px -2px rgba(0,0,0,0.3);
+}
+
 .App {
   text-align: center;
+}
+
+.display-5 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    line-height: 1.2;
 }
