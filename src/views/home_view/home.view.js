@@ -21,6 +21,9 @@ export class HomeView extends Component {
             .then(response => {
                 console.log("Get clients response: ", response);
             })
+            .catch(error => {
+                console.log("Something went wrong: ", error);
+            })
     }
 
     render() {
@@ -31,12 +34,12 @@ export class HomeView extends Component {
                 <Row className="pt-3">
                     <Col className="pt-3">
                         
-                        <Card className="mx-auto" style={{ width: '18rem' }}>
+                        <Card className="mx-auto" style={{ width: '20rem' }}>
                             <Card.Img variant="top" src={ mapImage } />
                             <Card.Body>
                             <Card.Title>CPE Map</Card.Title>
                             <Card.Text>
-                                See a map of all the currently active and inactive cpes
+                                See a map of all the currently active and inactive CPEs.
                             </Card.Text>
                             <Link to="/cpemap">
                                 <Button variant="primary">Go to Map</Button>
@@ -47,12 +50,12 @@ export class HomeView extends Component {
                     </Col>
                     <Col className="pt-3">
 
-                        <Card className="mx-auto" style={{ width: '18rem' }}>
+                        <Card className="mx-auto" style={{ width: '20rem' }}>
                             <Card.Img variant="top" src={ webImage } />
                             <Card.Body>
                             <Card.Title>Websites</Card.Title>
                             <Card.Text>
-                                See a list of all the active and disabled websites
+                                See a list of all the active and disabled websites.
                             </Card.Text>
                             <Link to="/websites">
                                 <Button variant="primary">Go to websites</Button>
