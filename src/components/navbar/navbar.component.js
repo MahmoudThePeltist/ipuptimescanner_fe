@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export class NavbarComponent extends Component {
 
     constructor(props){
@@ -30,7 +31,7 @@ export class NavbarComponent extends Component {
         return(
             <Navbar expand="lg" bg="dark" variant="dark">
 
-            <Navbar.Brand href="/">{ this.props.title }</Navbar.Brand>
+            <Navbar.Brand href="/"><FontAwesomeIcon className="mx-1" icon={ this.props.titleIcon }/>{ this.props.title }</Navbar.Brand>
             
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
@@ -38,6 +39,9 @@ export class NavbarComponent extends Component {
                 <Nav className="mr-auto">
                     { this.props.links.map( link => 
                         <Link className="nav-link" key={ link.link } to={ link.link }>
+                            { link.icon ?
+                                <FontAwesomeIcon className="mx-1" icon={ link.icon }/>
+                            : false}
                             { link.title }
                         </Link>
                     ) }
