@@ -9,16 +9,18 @@ import { WebsitesView } from './views/websites_view/websites.view';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import { faLightbulb, faHome, faMap, faNetworkWired, faPlus } from '@fortawesome/free-solid-svg-icons';
+
 function App() {
 
-  var links_list = [{link: 'home',title: 'Home'},
-                    {link: 'cpemap',title: 'CPE Map'},
-                    {link: 'websites',title: 'Websites'},
-                    {link: 'add',title: 'Add'}];
+  var links_list = [{icon: faHome, link: 'home', title: 'Home'},
+                    {icon: faMap, link: 'cpemap', title: 'CPE Map'},
+                    {icon: faNetworkWired, link: 'websites', title: 'Websites'},
+                    {icon: faPlus, link: 'add', title: 'Add'}];
 
   return (
     <Router>
-      <NavbarComponent title={"Outage Scanner"} links={ links_list }/>
+      <NavbarComponent titleIcon={faLightbulb} title={"Scanner Darkly"} links={ links_list }/>
       <Switch>
       
         <Route path='/home'>
