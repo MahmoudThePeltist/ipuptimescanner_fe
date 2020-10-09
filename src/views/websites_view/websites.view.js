@@ -3,7 +3,7 @@ import { Container, Row, Col, Table, Card, Button, Spinner } from 'react-bootstr
 
 import { ClientsService } from '../../services/clients.service';
 
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faCog, faClock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
  
 export class WebsitesView extends Component {
@@ -43,6 +43,14 @@ export class WebsitesView extends Component {
             })
     }
 
+    editWebsite(id) {
+        
+    }
+
+    goToHistory(id) {
+        
+    }
+
     render() {
         return(
             <Container>
@@ -59,8 +67,8 @@ export class WebsitesView extends Component {
                                 <th>Address</th>
                                 <th>Status</th>
                                 <th>Description</th>
-                                <th>Created At</th>
-                                <th>Updated At</th>
+                                <th>Creation</th>
+                                <th>Last Change</th>
                                 <th>Tools</th>
                                 </tr>
                             </thead>
@@ -70,11 +78,29 @@ export class WebsitesView extends Component {
                                     <td>{ row.id }</td>
                                     <td>{ row.name }</td>
                                     <td>{ row.address }</td>
-                                    <td>{ row.status }</td>
+                                    <td><span className="badge badge-info">{ row.status }</span></td>
                                     <td>{ row.description }</td>
-                                    <td>{ row.created_at }</td>
-                                    <td>{ row.updated_at }</td>
-                                    <td><Button className="btn-sm" onClick={() => this.deleteWebsite(row.id)} variant="secondary"><FontAwesomeIcon icon={faTrash} /></Button></td>
+                                    <td>{ (new Date(row.created_at)).toLocaleDateString() }</td>
+                                    <td>{ (new Date(row.updated_at)).toLocaleDateString() }</td>
+                                    <td>
+                                        <div className="row mx-1">
+                                            <div className="col-4">
+                                            <Button className="btn-sm px-3" 
+                                                    onClick={() => this.goToHistory(row.id)} 
+                                                    variant="primary"><FontAwesomeIcon icon={faClock} /></Button>
+                                            </div>
+                                            <div className="col-4">
+                                            <Button className="btn-sm px-3" 
+                                                    onClick={() => this.editWebsite(row.id)} 
+                                                    variant="info"><FontAwesomeIcon icon={faCog} /></Button>
+                                            </div>
+                                            <div className="col-4">
+                                            <Button className="btn-sm px-3" 
+                                                    onClick={() => this.deleteWebsite(row.id)} 
+                                                    variant="danger"><FontAwesomeIcon icon={faTrash} /></Button>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                             )}
                             </tbody>
