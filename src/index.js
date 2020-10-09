@@ -1,11 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import WebFont from 'webfontloader';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 // Importing bootstrap css
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+WebFont.load({
+  google: {
+    families: ['Sansita Swashed','cursive', 'Open Sans', 'sans-serif']
+  }
+})
 
 ReactDOM.render(
   <React.StrictMode>
