@@ -13,33 +13,48 @@ import { faLightbulb, faHome, faMap, faNetworkWired, faPlus } from '@fortawesome
 
 function App() {
 
-  var links_list = [{icon: faHome, link: 'home', title: 'Home'},
-                    {icon: faMap, link: 'cpemap', title: 'CPE Map'},
-                    {icon: faNetworkWired, link: 'websites', title: 'Websites'},
-                    {icon: faPlus, link: 'add', title: 'Add'}];
+  var links_list = [{icon: faHome, link: '/', title: 'Home'},
+                    {icon: faNetworkWired, link: '/clients', title: 'Clients'},
+                    {icon: faMap, link: '/clients/map', title: 'Client Map'},
+                    {icon: faPlus, link: '/clients/add', title: 'Add Client'}];
 
   return (
     <Router>
+
       <NavbarComponent titleIcon={faLightbulb} title={"Scanner Darkly"} links={ links_list }/>
+
       <Switch>
-      
-        <Route path='/home'>
-          <HomeView/>
-        </Route>
         
-        <Route path='/cpemap'>
+        <Route path='/clients/map'>
           <MapView/>
         </Route>
         
-        <Route path='/websites'>
-          <WebsitesView/>
-        </Route>
-        
-        <Route path='/add'>
+        <Route path='/clients/add'>
           <AddItemView/>
         </Route>
 
+        <Route path='/clients/:id/history'>
+          <AddItemView/>
+        </Route>
+
+        <Route path='/clients/:id/edit'>
+          <AddItemView/>
+        </Route>
+
+        <Route path='/clients/:id'>
+          <AddItemView/>
+        </Route>
+
+        <Route path='/clients'>
+          <WebsitesView/>
+        </Route>
+
+        <Route path='/'>
+          <HomeView/>
+        </Route>
+
       </Switch>
+    
     </Router>
   );
 }
