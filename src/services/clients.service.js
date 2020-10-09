@@ -4,6 +4,7 @@ export class ClientsService {
     
     constructor() {
         this.url = 'http://localhost:3500/api';
+        // this.url = 'http://172.16.0.80:3500/api';
         this.resource = 'clients';
     }
     
