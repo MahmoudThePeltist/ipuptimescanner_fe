@@ -37,12 +37,12 @@ export class HomeView extends Component {
                         <Card className="mx-auto" style={{ width: '20rem' }}>
                             <Card.Img variant="top" src={ mapImage } />
                             <Card.Body>
-                            <Card.Title>CPE Map</Card.Title>
+                            <Card.Title>Client Map</Card.Title>
                             <Card.Text>
-                                See a map of all the currently active and inactive CPEs.
+                                See a map of all the currently active and inactive Clients.
                             </Card.Text>
-                            <Link to="/cpemap">
-                                <Button variant="primary">Go to Map</Button>
+                            <Link to="/clients/map">
+                                <Button variant="primary">Go to Clients Map</Button>
                             </Link>
                             </Card.Body>
                         </Card>
@@ -53,12 +53,12 @@ export class HomeView extends Component {
                         <Card className="mx-auto" style={{ width: '20rem' }}>
                             <Card.Img variant="top" src={ webImage } />
                             <Card.Body>
-                            <Card.Title>Websites</Card.Title>
+                            <Card.Title>Clients</Card.Title>
                             <Card.Text>
-                                See a list of all the active and disabled websites.
+                                See a list of all the active and disabled Clients.
                             </Card.Text>
-                            <Link to="/websites">
-                                <Button variant="primary">Go to websites</Button>
+                            <Link to="/clients">
+                                <Button variant="primary">Go to Clients</Button>
                             </Link>
                             </Card.Body>
                         </Card>
