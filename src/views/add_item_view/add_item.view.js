@@ -58,6 +58,7 @@ export class AddItemView extends Component {
                     <Col className="text-center my-5">
                         <ClientFormComponent    handleSubmit = { this.handleSubmit }
                                                 message = { this.state.message }
+                                                match = {this.props.match}
                                                 clearMessage = { this.clearMessage } />
                     </Col>
                 </Row>
