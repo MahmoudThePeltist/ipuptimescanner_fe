@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Table, Card, Button, Spinner } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import { ClientsService } from '../../services/clients.service';
 
@@ -15,6 +16,7 @@ export class WebsitesView extends Component {
     }
 
     componentDidMount() {
+        console.log("Props: ", this.props);
         this.getClients();
     }
     
@@ -41,14 +43,6 @@ export class WebsitesView extends Component {
                 console.log("Something went wrong: ", error);
                 this.getClients();
             })
-    }
-
-    editWebsite(id) {
-        
-    }
-
-    goToHistory(id) {
-        
     }
 
     render() {
@@ -85,14 +79,17 @@ export class WebsitesView extends Component {
                                     <td>
                                         <div className="row mx-1">
                                             <div className="col-4">
-                                            <Button className="btn-sm px-3" 
-                                                    onClick={() => this.goToHistory(row.id)} 
-                                                    variant="primary"><FontAwesomeIcon icon={faClock} /></Button>
+                                                <Link  to = { "/clients/"+row.id+"/history" }>
+                                                    <Button className="btn-sm px-3" 
+                                                            onClick={() => this.goToHistory(row.id)} 
+                                                            variant="primary"><FontAwesomeIcon icon={faClock} /></Button>
+                                                </Link>
                                             </div>
                                             <div className="col-4">
-                                            <Button className="btn-sm px-3" 
-                                                    onClick={() => this.editWebsite(row.id)} 
-                                                    variant="info"><FontAwesomeIcon icon={faCog} /></Button>
+                                                <Link  to = { "/clients/"+row.id+"/edit" }>
+                                                    <Button className="btn-sm px-3"
+                                                            variant="info"><FontAwesomeIcon icon={faCog} /></Button>
+                                                </Link>
                                             </div>
                                             <div className="col-4">
                                             <Button className="btn-sm px-3" 
