@@ -10,8 +10,9 @@ import { WebsitesView } from './views/websites_view/websites.view';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { faLightbulb, faHome, faMap, faNetworkWired, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { EditClientView } from './views/edit_client_view/edit_client_view';
 
-function App() {
+function App(props) {
 
   var links_list = [{icon: faHome, link: '/', title: 'Home'},
                     {icon: faNetworkWired, link: '/clients', title: 'Clients'},
@@ -25,31 +26,31 @@ function App() {
 
       <Switch>
         
-        <Route path='/clients/map'>
+        <Route exact path='/clients/map'>
           <MapView/>
         </Route>
         
-        <Route path='/clients/add'>
-          <AddItemView/>
+        <Route exact path='/clients/add'>
+          { match => <AddItemView match={match}/> }
         </Route>
 
-        <Route path='/clients/:id/history'>
-          <AddItemView/>
+        <Route exact path='/clients/:id/history'>
+          { match => <AddItemView match={match}/> }
         </Route>
 
-        <Route path='/clients/:id/edit'>
-          <AddItemView/>
+        <Route exact path='/clients/:id/edit'>
+          { match => <EditClientView match={match}/> }
         </Route>
 
-        <Route path='/clients/:id'>
-          <AddItemView/>
+        <Route exact path='/clients/:id'>
+          { match => <WebsitesView match={match}/> }
         </Route>
 
-        <Route path='/clients'>
-          <WebsitesView/>
+        <Route exact path='/clients'>
+          { props => <WebsitesView {...props}/> }
         </Route>
 
-        <Route path='/'>
+        <Route exact path='/'>
           <HomeView/>
         </Route>
 
