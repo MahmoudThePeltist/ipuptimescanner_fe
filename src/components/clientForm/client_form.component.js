@@ -89,13 +89,13 @@ export class ClientFormComponent extends Component {
       coordinates[event.target.name] = event.target.value;
 
       this.setState({
-        form_data: { attributes: { coordinates: coordinates } },
+        form_data: { ...this.state.form_data, attributes: { ...this.state.attributes, coordinates: coordinates } },
       });
       console.log(this.state.form_data.attributes, "after setting state");
     } else {
       let new_form_data = this.state.form_data;
       new_form_data[event.target.name] = event.target.value;
-      this.setState({ form_data: new_form_data });
+      this.setState({ form_data: this.state.form_data, new_form_data });
       console.log(this.state.form_data, "updated form data");
     }
   }

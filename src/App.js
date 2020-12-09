@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import { NavbarComponent } from './components/navbar/navbar.component';
+import NavbarComponent from './components/navbar/navbar.component';
 import { HomeView } from './views/home_view/home.view';
 import { MapView } from './views/map_view/map.view';
 import { AddItemView } from './views/add_item_view/add_item.view';
