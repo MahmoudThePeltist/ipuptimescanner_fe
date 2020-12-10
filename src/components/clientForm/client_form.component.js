@@ -1,194 +1,163 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Form, Row, Col, Button, Alert } from "react-bootstrap";
 import { ClientsService } from "../../services/clients.service";
-import useForm from '../../customHooks/custom_hooks'
+import useForm from "../../customHooks/custom_hooks";
 
 export function ClientFormComponent(props) {
+  const [title, setTitle] = useState(undefined);
+  const [message, setMessage] = useState(undefined);
 
+  const clientService = new ClientsService();
+
+  const { inputs, handleInputChange } = useForm(
+    {
+      id: undefined,
+      name: "",
+      address: "",
+      type: "website",
+      attributes:{
+        coordinates:{
+          x:'',
+          y:'',
+        }
+      },
+      description: "",
+    },
+    () => props.handleSubmit()
+  );
  
-     const [title, setTitle] = useState(undefined)
-     const [message, setMessage] = useState(undefined)
-     const [type, setType] = useState('website')
-     const {inputs, handleSubmit, handleInputChange} = useForm(); 
-     
-    
-    
-    //  useEffect = () => {
-    //     console.log("ClientFormComponent Props: ", props);
-    //     var clientsService = new ClientsService();
-    //     if (props.client_id) {
-    //       setTitle("Editing");
-
-    //       clientsService
-    //         .getSpecificClient(props.client_id)
-    //         .then((response) => {
-    //           if (response["data"][0]) {
-    //             const form_data = response["data"][0];
-    //             //  setState({
-    //             //   form_data: {
-    //             //     id: form_data.id,
-    //             //     name: form_data.name,
-    //             //     address: form_data.address,
-    //             //     type: form_data.type,
-    //             //     attributes: {
-    //             //       coordinates: form_data.attributes
-    //             //         ? JSON.parse(form_data.attributes).coordinates
-    //             //         : undefined,
-    //             //     },
-    //             //     description: form_data.description,
-    //             //   },
-    //             // });
-    //           } else {
-    //             setMessage('no such user')
-    //           }
-    //           console.log(
-    //             "Get Specific client response: ",
-    //             response,
-    //             " State: ",
-                
-    //           );
-    //         })
-    //         .catch((error) => {
-    //           console.log("Get Specific Client error:", error);
-    //         });
-    //     } else {
-    //         setTitle('Adding');
-    //     }
-    //   }
-      const handleType =(e) => {
-        console.log(e.target.value)
-        setType(e.target.value)
-     }
   
-    console.log(type, 'type')
+  useEffect(() => {
+    // console.log("whats going on here", inputs);
+    // if(props.client_id){
+    //   setTitle('Editing')
+    // }
+  });
+
+  
   return (
-     
-        <Card className="p-3">
-        <div className="display-5 py-3"> {title} </div>
+    <Card className="p-3">
+      <div className="display-5 py-3"> {title} </div>
 
-        {message !== "no such user" ? (
-          <Form
-            className="mx-5"
-            onSubmit={(e) => handleSubmit(e)}
-            id="add-client-form"
-          >
-            <Form.Group controlId="formName">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                required
-                placeholder="A name to describe the specific client."
-                name="name"
-                value={inputs.name}
-                onChange={handleInputChange}
-              />
+      {message !== "no such user" ? (
+        <Form
+          className="mx-5"
+          onSubmit={(e) => props.handleSubmit(e, inputs)}
+          id="add-client-form"
+        >
+          <Form.Group controlId="formName">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              type="text"
+              required
+              placeholder="A name to describe the specific client."
+              name="name"
+              value={inputs.name}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formAddress">
+            <Form.Label>Address</Form.Label>
+            <Form.Control
+              type="text"
+              required
+              placeholder="The client's IP address"
+              name="address"
+              value={inputs.address}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formType">
+            <Form.Label>Type</Form.Label>
+            <Form.Control
+              as="select"
+              required
+              name="type"
+              value={inputs.type}
+              onChange={handleInputChange}
+            >
+              <option value="website">Website</option>
+              <option value="cpe">Device</option>
+            </Form.Control>
+          </Form.Group>
+
+          {inputs.type === "cpe" ? (
+            <Form.Group controlId="formCoordinates">
+              <Form.Label>Coordinates</Form.Label>
+              <Row>
+                <Col>
+                  <Form.Control
+                    type="number"
+                    max="180.0000"
+                    min="-180.0000"
+                    step="0.00000001"
+                    placeholder="x coordinate"
+                    required
+                    name="attributes.coordinates.x"
+                    value={inputs.attributes.coordinates.x}
+                    onChange={handleInputChange}
+                  />
+                </Col>
+                <Col>
+                  <Form.Control
+                    type="number"
+                    max="180.0000"
+                    min="-180.0000"
+                    step="0.00000001"
+                    placeholder="y coordinate"
+                    required
+                    name="attributes.coordinates.y"
+                    value={inputs.attributes.coordinates.y}
+                    onChange={handleInputChange}
+                  />
+                </Col>
+              </Row>
+              <Form.Text className="text-muted">
+                The coordinates of the device
+              </Form.Text>
             </Form.Group>
+          ) : (
+            false
+          )}
 
-            <Form.Group controlId="formAddress">
-              <Form.Label>Address</Form.Label>
-              <Form.Control
-                type="text"
-                required
-                placeholder="The client's IP address"
-                name="address"
-                value={inputs.address}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
+          <Form.Group controlId="formDescription">
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="The client's description"
+              name="description"
+              value={inputs.description}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
 
-            <Form.Group controlId="formType">
-              <Form.Label>Type</Form.Label>
-              <Form.Control
-                as="select"
-                required
-                name="type"
-                value={inputs.type}
-                onChange={handleType}
-              >
-                <option value="website">Website</option>
-                <option value="cpe">Device</option>
-              </Form.Control>
-            </Form.Group>
+          <Button variant="primary" type="submit">
+            {title === "Editing"
+              ? "Edit Client in System"
+              : "Add Client to System"}
+          </Button>
 
-            {type === "cpe" ? (
-              <Form.Group controlId="formCoordinates">
-                <Form.Label>Coordinates</Form.Label>
-                <Row>
-                  <Col>
-                    <Form.Control
-                      type="number"
-                      max="180.0000"
-                      min="-180.0000"
-                      step="0.00000001"
-                      placeholder="x coordinate"
-                      required
-                      name="x"
-                      value={inputs.x}
-                      onChange={handleInputChange}
-                    />
-                  </Col>
-                  <Col>
-                    <Form.Control
-                      type="number"
-                      max="180.0000"
-                      min="-180.0000"
-                      step="0.00000001"
-                      placeholder="y coordinate"
-                      required
-                      name="y"
-                      value={inputs.y}
-                      onChange={handleInputChange}
-                    />
-                  </Col>
-                </Row>
-                <Form.Text className="text-muted">
-                  The coordinates of the device
-                </Form.Text>
-              </Form.Group>
-            ) : (
-              false
-            )}
-
-            <Form.Group controlId="formDescription">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="The client's description"
-                name="description"
-                value={inputs.description}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-
-            <Button variant="primary" type="submit">
-              {title === "Editing"
-                ? "Edit Client in System"
-                : "Add Client to System"}
-            </Button>
-
-            {message ? (
-              <Alert
-                className="m-3"
-                variant={
-                  message === "error" ? "danger" : "info"
-                }
-                onClose={props.clearMessage}
-                dismissible
-              >
-                <p>{message}</p>
-              </Alert>
-            ) : (
-              false
-            )}
-          </Form>
-        ) : (
-          <div class="display-4 text-center">{message}</div>
-        )}
-      </Card>
-    
-  )
+          {message ? (
+            <Alert
+              className="m-3"
+              variant={message === "error" ? "danger" : "info"}
+              onClose={props.clearMessage}
+              dismissible
+            >
+              <p>{message}</p>
+            </Alert>
+          ) : (
+            false
+          )}
+        </Form>
+      ) : (
+        <div class="display-4 text-center">{message}</div>
+      )}
+    </Card>
+  );
 }
-
 
 // export class ClientFormComponent extends Component {
 //   constructor(props) {
@@ -199,19 +168,19 @@ export function ClientFormComponent(props) {
 //     this.state = {
 //       form_title: undefined,
 
-//       form_data: {
-//         id: undefined,
-//         name: "",
-//         address: "",
-//         type: "website",
-//         attributes: {
-//           coordinates: {
-//             x: "",
-//             y: "",
-//           },
-//         },
-//         description: "",
-//       },
+// form_data: {
+//   id: undefined,
+//   name: "",
+//   address: "",
+//   type: "website",
+//   attributes: {
+//     coordinates: {
+//       x: "",
+//       y: "",
+//     },
+//   },
+//   description: "",
+// },
 
 //       message: {
 //         text: undefined,
