@@ -5,41 +5,57 @@ import useForm from "../../customHooks/custom_hooks";
 
 export function ClientFormComponent(props) {
   const [title, setTitle] = useState(undefined);
-  const [message, setMessage] = useState(undefined);
-
   const clientService = new ClientsService();
 
-  const { inputs, handleInputChange } = useForm(
+  const { inputs, handleInputChange, setInputs } = useForm(
     {
       id: undefined,
       name: "",
       address: "",
       type: "website",
-      attributes:{
-        coordinates:{
-          x:'',
-          y:'',
-        }
+      attributes: {
+        coordinates: {
+          x: "",
+          y: "",
+        },
       },
       description: "",
     },
     () => props.handleSubmit()
   );
- 
-  
-  useEffect(() => {
-    // console.log("whats going on here", inputs);
-    // if(props.client_id){
-    //   setTitle('Editing')
-    // }
-  });
 
-  
+  useEffect(() => {
+    console.log("ClientFormComponent Props: ", props);
+    prevState();
+  }, []);
+
+  const prevState = () => {
+    if (props.client_id) {
+      setTitle("Editing");
+      clientService
+        .getSpecificClient(props.client_id)
+        .then((response) => {
+          let original_data = response["data"][0];
+
+          const objectified = JSON.parse(original_data.attributes);
+
+          original_data.attributes = objectified;
+
+          setInputs(original_data);
+        })
+        .catch((error) => {
+          console.log("Get Specific Client error:", error);
+        });
+    } else {
+      setTitle("Adding");
+    }
+  };
+
   return (
     <Card className="p-3">
       <div className="display-5 py-3"> {title} </div>
 
-      {message !== "no such user" ? (
+      {props.message !== "no such user" ? (
         <Form
           className="mx-5"
           onSubmit={(e) => props.handleSubmit(e, inputs)}
@@ -96,7 +112,7 @@ export function ClientFormComponent(props) {
                     placeholder="x coordinate"
                     required
                     name="attributes.coordinates.x"
-                    value={inputs.attributes.coordinates.x}
+                    value={inputs.attributes?.coordinates?.x}
                     onChange={handleInputChange}
                   />
                 </Col>
@@ -109,7 +125,7 @@ export function ClientFormComponent(props) {
                     placeholder="y coordinate"
                     required
                     name="attributes.coordinates.y"
-                    value={inputs.attributes.coordinates.y}
+                    value={inputs.attributes?.coordinates?.y}
                     onChange={handleInputChange}
                   />
                 </Col>
@@ -139,21 +155,21 @@ export function ClientFormComponent(props) {
               : "Add Client to System"}
           </Button>
 
-          {message ? (
+          {props.message ? (
             <Alert
               className="m-3"
-              variant={message === "error" ? "danger" : "info"}
+              variant={props.message === "error" ? "danger" : "info"}
               onClose={props.clearMessage}
               dismissible
             >
-              <p>{message}</p>
+              <p>{props.message}</p>
             </Alert>
           ) : (
             false
           )}
         </Form>
       ) : (
-        <div class="display-4 text-center">{message}</div>
+        <div class="display-4 text-center">{props.message}</div>
       )}
     </Card>
   );

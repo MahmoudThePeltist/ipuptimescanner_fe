@@ -31,7 +31,8 @@ export default function useForm(initialState, callback) {
     }
   };
   return {
-    handleSubmit,
+    setInputs,
+    // handleSubmit,
     handleInputChange,
     inputs,
   };

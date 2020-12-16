@@ -5,7 +5,7 @@ import NavbarComponent from './components/navbar/navbar.component';
 import { HomeView } from './views/home_view/home.view';
 import { MapView } from './views/map_view/map.view';
 import { AddItemView } from './views/add_item_view/add_item.view';
-import { WebsitesView } from './views/websites_view/websites.view';
+import  WebsitesView  from './views/websites_view/websites.view';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 

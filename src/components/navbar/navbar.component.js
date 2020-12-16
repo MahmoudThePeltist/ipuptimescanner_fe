@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { Navbar, Nav } from "react-bootstrap";
+
 import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function NavbarComponent(props) {
- const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date());
 
- useEffect(() => {
+  useEffect(() => {
     var intervalId = setInterval(() => setTimer(), 1000);
-    return function cleanup(){
-        clearInterval(intervalId);
-     }
- })
+    return function cleanup() {
+      clearInterval(intervalId);
+    };
+  });
 
+  function setTimer() {
+    setDate(new Date());
+  }
 
- function setTimer() {
-     setDate(new Date())
- };
-
- 
   return (
     <div>
-        <Navbar expand="lg" bg="dark" variant="dark">
+      <Navbar expand="lg" bg="dark" variant="dark">
         <Navbar.Brand href="/">
           <FontAwesomeIcon className="mx-1" icon={props.titleIcon} />
           {props.title}
@@ -42,14 +41,11 @@ export default function NavbarComponent(props) {
               </Link>
             ))}
           </Nav>
-
-          <h5 className="text-primary">
-            {date.toLocaleTimeString()}
-          </h5>
+   
+        
+          <h5 className="text-primary">{date.toLocaleTimeString()}</h5>
         </Navbar.Collapse>
       </Navbar>
     </div>
-  )
+  );
 }
-
-
