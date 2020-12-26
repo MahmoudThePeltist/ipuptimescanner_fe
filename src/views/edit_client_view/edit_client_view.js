@@ -1,82 +1,65 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { ClientFormComponent } from '../../components/clientForm/client_form.component';
 import { ClientsService } from '../../services/clients.service';
 
-export class EditClientView extends Component {
-    
-    constructor(props) {
-        super(props);
 
-        this.clientsService = new ClientsService();
+export function  EditClientView(props) {
 
-        // messages can be of types: "success" or "error"
-        this.state = {
-            id: undefined,
+    const clientsService = new ClientsService()
 
-            message: {
-                text: undefined,
-                type: undefined
-            }
-        };
+    const [id, setId] = useState(undefined)
+    const [message, setMessage] = useState('')
 
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.setMessage = this.setMessage.bind(this);
-        this.clearMessage = this.clearMessage.bind(this);
-        this.componentDidMount = this.componentDidMount.bind(this);
-    }
+    useEffect(() => {
+        console.log("EditClientView Props: ", props.match.match.params.id);
 
-    componentDidMount(){
-        console.log("EditClientView Props: ", this.props.match.match.params.id);
-
-        if(this.props.match.match.params.id) {
-            this.setState({id: this.props.match.match.params.id});
-            console.log("EditClientView State: ", this.state);
+        if(props.match.match.params.id) {
+              setId(props.match.match.params.id);
+            console.log("EditClientView State: ", id, message);
         }
-    }
+    })
 
-    handleSubmit(event, data) {
+
+    const handleSubmit = (event, data) => {
         event.preventDefault();
         
-        console.log("Data to submit: ", event, data, `/${this.state.id}`);
+        console.log("Data to submit: ", event, data, `/${id}`);
 
-        this.clientsService.updateClient(data, this.state.id)
+        clientsService.updateClient(data, id)
             .then(response => {
                 console.log("Submit response: ", response );
 
                 document.getElementById("add-client-form").reset();
 
-                this.setMessage("Success", "success");
+                setMessage("Success");
             })
             .catch(error => {
                 console.log("Submit error: ", error);
 
-                this.setMessage("Something went wrong...", "error");
+                setMessage("Something went wrong...");
             })
     }
 
-    setMessage(message, type) {
-        this.setState( {message: { text: message, type: type } } );
+   const clearMessage = () => {
+          setMessage(undefined);
     }
-
-    clearMessage() {
-        this.setState( {message: { text: undefined, type: undefined } } );
-    }
-    
-    render() {
-        return (
-            <Container>
+  return (
+    <div>
+       <Container>
                 <Row>
                     <Col className="text-center my-5">
-                        <ClientFormComponent    handleSubmit = { this.handleSubmit }
-                                                message = { this.state.message }
-                                                client_id = { this.props.match.match.params.id }
-                                                match = {this.props.match}
-                                                clearMessage = { this.clearMessage } />
+                        <ClientFormComponent    handleSubmit = { handleSubmit }
+                                                message = { message }
+                                                client_id = { props.match.match.params.id }
+                                                match = {props.match}
+                                                clearMessage = {clearMessage } />
                     </Col>
                 </Row>
             </Container>
-        );
-    }
-    
+    </div>
+  )
 }
+
+  
+    

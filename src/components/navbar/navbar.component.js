@@ -1,56 +1,51 @@
-import React, { Component } from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { Navbar, Nav } from "react-bootstrap";
+
+import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-export class NavbarComponent extends Component {
 
-    constructor(props){
-        super(props);
-        this.state = {
-            date: new Date()
-        };
+export default function NavbarComponent(props) {
+  const [date, setDate] = useState(new Date());
 
-        // this.setDate = this.setDate.bind(this);
-    }
+  useEffect(() => {
+    var intervalId = setInterval(() => setTimer(), 1000);
+    return function cleanup() {
+      clearInterval(intervalId);
+    };
+  });
 
-    setDate() {
-        this.setState({ date: new Date() });
-    }
+  function setTimer() {
+    setDate(new Date());
+  }
 
-    componentDidMount() {
-        this.intervalId = setInterval(() => this.setDate(), 1000);
-    }
+  return (
+    <div>
+      <Navbar expand="lg" bg="dark" variant="dark">
+        <Navbar.Brand href="/">
+          <FontAwesomeIcon className="mx-1" icon={props.titleIcon} />
+          {props.title}
+        </Navbar.Brand>
 
-    componentWillUnmount() {
-        clearInterval( this.intervalId );
-    }
-
-    render(){
-
-        return(
-            <Navbar expand="lg" bg="dark" variant="dark">
-
-            <Navbar.Brand href="/"><FontAwesomeIcon className="mx-1" icon={ this.props.titleIcon }/>{ this.props.title }</Navbar.Brand>
-            
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
-
-                <Nav className="mr-auto">
-                    { this.props.links.map( link => 
-                        <Link className="nav-link" key={ link.link } to={ link.link }>
-                            { link.icon ?
-                                <FontAwesomeIcon className="mx-1" icon={ link.icon }/>
-                            : false}
-                            { link.title }
-                        </Link>
-                    ) }
-                </Nav>
-
-                <h5 className="text-primary">{this.state.date.toLocaleTimeString()}</h5>
-
-              </Navbar.Collapse>
-            </Navbar>
-        );
-    }
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            {props.links.map((link) => (
+              <Link className="nav-link" key={link.link} to={link.link}>
+                {link.icon ? (
+                  <FontAwesomeIcon className="mx-1" icon={link.icon} />
+                ) : (
+                  false
+                )}
+                {link.title}
+              </Link>
+            ))}
+          </Nav>
+   
+        
+          <h5 className="text-primary">{date.toLocaleTimeString()}</h5>
+        </Navbar.Collapse>
+      </Navbar>
+    </div>
+  );
 }
