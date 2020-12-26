@@ -15,47 +15,65 @@ import { ClientsService } from "../../services/clients.service";
 
 import { faTrash, faCog, faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useQuery } from "../../customHooks/custom_hooks";
 
 export default function WebsitesView() {
   const [clientData, setClientData] = useState(undefined);
-  const [filteredData, setFilteredData] = useState(undefined)
-  const [searchTerm, setSearchTerm] = useState('')
-  const history = useHistory()
-  console.log(history, 'history')
+  const [filteredData, setFilteredData] = useState(undefined);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState("name");
+  const {data, status} = useQuery({url:'/clients', requestType:'get'})
 
   const clientsService = new ClientsService();
 
-  useEffect(() => {
-    getClients();
-  }, []);
+  // useEffect(() => {
+  //   getClients();
+  // }, []);
+   console.log(data, 'data')
 
+  // const setter = () => {
+  //   if(data){
+  //     setClientData(data)
+  //   }
+  //   return false
+  // }
   const handleCallback = (newSearchTerm) => {
-      setSearchTerm(newSearchTerm)
-  }
+    setSearchTerm(newSearchTerm);
+  };
+  const handleSecondCallback = (def) => {
+    setFilter(def);
+  };
   const getClients = () => {
     clientsService
       .getClients()
       .then((response) => {
-        console.log("Get clients response: ", response);
+        // console.log("Get clients response: ", response);
+
+        console.log(response.status);
+
         setClientData(response["data"]);
       })
       .catch((error) => {
         console.log("Something went wrong: ", error);
       });
   };
-   
-   useEffect(() => {
-     setFilteredData(
-       clientData?.filter( client => client.name.toLowerCase().includes(searchTerm.toLowerCase()))
-     )
-   }, [searchTerm])
-    
- 
-   console.log(filteredData, 'filtered')
-  
-  
 
-  
+  // useEffect(() => {
+  //   if (filter === "name") {
+  //     setFilteredData(
+  //       clientData?.filter((client) =>
+  //         client.name.toLowerCase().includes(searchTerm.toLowerCase())
+  //       )
+  //     );
+  //   }
+  //   if (filter === "address") {
+  //     setFilteredData(
+  //       clientData?.filter((client) => client.address.includes(searchTerm))
+  //     );
+  //   }
+  // }, [searchTerm]);
+
+
   const deleteWebsite = (id) => {
     clientsService
       .deleteClient(id)
@@ -68,8 +86,9 @@ export default function WebsitesView() {
         getClients();
       });
   };
-
-  return (
+  console.log(status, 'status from hook')
+ console.log(data, 'helloo from the other sideeeeee')
+  return (  
     <div>
       <Container>
         <Row>
@@ -77,9 +96,12 @@ export default function WebsitesView() {
             <Card className="p-3">
               <div className="display-5 py-3">
                 Websites
-                <SearchBar handleCallback={handleCallback} />
+                <SearchBar
+                  handleCallback={handleCallback}
+                  handleSecondCallback={handleSecondCallback}
+                />
               </div>
-              {clientData ? (
+              {data  ? (
                 <Table className="py-5" striped hover>
                   <thead>
                     <tr>
@@ -94,7 +116,7 @@ export default function WebsitesView() {
                     </tr>
                   </thead>
                   <tbody>
-                    {(filteredData ? filteredData : clientData).map((row) => (
+                    {filteredData ? filteredData : data.map((row) => (
                       <tr key={row.id}>
                         <td>{row.id}</td>
                         <td>{row.name}</td>

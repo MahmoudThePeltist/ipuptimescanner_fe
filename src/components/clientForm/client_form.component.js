@@ -58,7 +58,7 @@ export function ClientFormComponent(props) {
       {props.message !== "no such user" ? (
         <Form
           className="mx-5"
-          onSubmit={(e) => props.handleSubmit(e, inputs)}
+          onSubmit={(e) => props.handleSubmit(e,inputs)}
           id="add-client-form"
         >
           <Form.Group controlId="formName">

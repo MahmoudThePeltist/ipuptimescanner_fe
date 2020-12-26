@@ -7,6 +7,8 @@ export class ClientsService {
         this.url = 'http://172.16.0.80:3500/api';
         this.resource = 'clients';
     }
+
+   
     
     getClients(){
         return axios.get(this.url + '/' + this.resource);
